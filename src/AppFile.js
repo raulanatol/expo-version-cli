@@ -12,50 +12,62 @@ class AppFile {
   increaseBuild() {
     const iosBuildNumber = '' + (Number(this.appData.expo && this.appData.expo.ios && this.appData.expo.ios.buildNumber || 0) + 1);
     const androidVersionCode = (this.appData.expo && this.appData.expo.android && this.appData.expo.android.versionCode || 0) + 1;
-    this.appData = {
-      ...this.appData,
-      expo: {
-        ios: { buildNumber: iosBuildNumber },
-        android: { versionCode: androidVersionCode }
-      },
-    };
+    this.setAndroidVersionCode(androidVersionCode);
+    this.setIOSBuildNumber(iosBuildNumber);
+  }
+
+  setIOSBuildNumber(newBuildNumber) {
+    if (this.appData.expo) {
+      if (this.appData.expo.ios) {
+        this.appData.expo.ios.buildNumber = newBuildNumber;
+      } else {
+        this.appData.expo.ios = { buildNumber: newBuildNumber };
+      }
+    } else {
+      this.appData.expo = { ios: { buildNumber: newBuildNumber } };
+    }
+  }
+
+  setAndroidVersionCode(newVersionCode) {
+    if (this.appData.expo) {
+      if (this.appData.expo.android) {
+        this.appData.expo.android.versionCode = newVersionCode;
+      } else {
+        this.appData.expo.android = { versionCode: newVersionCode };
+      }
+    } else {
+      this.appData.expo = { android: { versionCode: newVersionCode } };
+    }
   }
 
   increaseMinor() {
-    const split = this.getExpoValues();
-    split[2] = 0;
+    const split = this.getExpoVersion();
+    split[2] = '0';
     split[1] = Number(split[1]) + 1;
-    this.appData = {
-      ...this.appData,
-      expo: {
-        version: split.join('.')
-      }
-    };
+    this.setExpoVersion(split.join('.'));
   }
 
   increasePatch() {
-    const split = this.getExpoValues();
+    const split = this.getExpoVersion();
     split[2] = Number(split[2]) + 1;
-    this.appData = {
-      ...this.appData,
-      expo: {
-        version: split.join('.')
-      }
-    };
+    this.setExpoVersion(split.join('.'));
   }
 
   increaseMajor() {
-    const split = this.getExpoValues();
+    const split = this.getExpoVersion();
     split[0] = Number(split[0]) + 1;
-    this.appData = {
-      ...this.appData,
-      expo: {
-        version: split[0] + '.0.0'
-      }
-    };
+    this.setExpoVersion(split[0] + '.0.0');
   }
 
-  getExpoValues() {
+  setExpoVersion(newVersion) {
+    if (this.appData.expo) {
+      this.appData.expo.version = newVersion;
+    } else {
+      this.appData.expo = { version: newVersion };
+    }
+  }
+
+  getExpoVersion() {
     const expoVersion = this.appData && this.appData.expo && this.appData.expo.version || '0.0.0';
     const split = expoVersion.split('.');
     if (!split || split.length !== 3) {

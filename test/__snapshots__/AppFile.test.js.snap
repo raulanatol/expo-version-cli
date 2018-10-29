@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppFile build androidBuildNumber Should increase the android build number if this field exists, with complex expo.json 1`] = `
+Object {
+  "expo": Object {
+    "android": Object {
+      "versionCode": 1,
+    },
+    "ios": Object {
+      "buildNumber": "1",
+    },
+    "name": "My app",
+    "privacy": "public",
+    "sdkVersion": "UNVERSIONED",
+    "slug": "my-app",
+  },
+}
+`;
+
+exports[`AppFile version major Should increase the major version number if this field exists with complex app.json 1`] = `
+Object {
+  "expo": Object {
+    "name": "My app",
+    "privacy": "public",
+    "sdkVersion": "UNVERSIONED",
+    "slug": "my-app",
+    "version": "1.0.0",
+  },
+}
+`;

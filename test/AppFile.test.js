@@ -77,6 +77,30 @@ describe('AppFile', () => {
 
         expect(appFile.appData.expo.android.versionCode).toBe(16);
       });
+
+      test('Should increase the android build number if this field exists, with complex expo.json', () => {
+        const mockVerifyFiles = jest.fn();
+        mockVerifyFiles.mockReturnValue(true);
+        Utils.verifyFiles = mockVerifyFiles;
+
+        const readFileMock = jest.fn();
+        Utils.readFile = readFileMock;
+
+        const expoJSON = {
+          "expo": {
+            "name": "My app",
+            "slug": "my-app",
+            "sdkVersion": "UNVERSIONED",
+            "privacy": "public"
+          }
+        };
+        readFileMock.mockReturnValue(JSON.stringify(expoJSON));
+
+        const appFile = new AppFile();
+        appFile.increaseBuild();
+
+        expect(appFile.appData).toMatchSnapshot();
+      });
     });
   });
 
@@ -98,6 +122,20 @@ describe('AppFile', () => {
         const appFile = prepareAppFileToCheck('{ "expo" : { "version": "1.2.3" } }');
         appFile.increaseMajor();
         expect(appFile.appData.expo.version).toBe('2.0.0');
+      });
+
+      test('Should increase the major version number if this field exists with complex app.json', () => {
+        const config = {
+          "expo": {
+            "name": "My app",
+            "slug": "my-app",
+            "sdkVersion": "UNVERSIONED",
+            "privacy": "public"
+          }
+        };
+        const appFile = prepareAppFileToCheck(JSON.stringify(config));
+        appFile.increaseMajor();
+        expect(appFile.appData).toMatchSnapshot();
       });
     });
 
