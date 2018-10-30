@@ -37,8 +37,9 @@ function run(cli) {
     const enabledFlags = Object.keys(flags).filter(flag => flags[flag]);
     if (enabledFlags.length > 0) {
       actions[enabledFlags[0]] ? actions[enabledFlags[0]]() : cli.showHelp();
+    } else {
+      cli.showHelp();
     }
-    cli.showHelp();
   } catch (e) {
     console.log(e.message);
   }
