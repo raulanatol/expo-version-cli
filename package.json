@@ -1,6 +1,6 @@
 {
   "name": "expo-version-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple expo version updater cli",
   "main": "index.js",
   "bin": {
