@@ -12,7 +12,7 @@ function increaseMinor() {
   appFile.save();
 }
 
-function increasePath() {
+function increasePatch() {
   const appFile = new AppFile();
   appFile.increasePatch();
   appFile.save();
@@ -26,7 +26,7 @@ function increaseMajor() {
 
 const actions = {
   build: increaseBuild,
-  path: increasePath,
+  patch: increasePatch,
   minor: increaseMinor,
   major: increaseMajor,
 };
@@ -35,7 +35,10 @@ function run(cli) {
   try {
     const flags = cli.flags;
     const enabledFlags = Object.keys(flags).filter(flag => flags[flag]);
-    enabledFlags.length > 0 ? actions[enabledFlags[0]]() : cli.showHelp();
+    if (enabledFlags.length > 0) {
+      actions[enabledFlags[0]] ? actions[enabledFlags[0]]() : cli.showHelp();
+    }
+    cli.showHelp();
   } catch (e) {
     console.log(e.message);
   }

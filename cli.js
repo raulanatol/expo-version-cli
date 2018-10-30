@@ -4,7 +4,7 @@ const updateNotifier = require('update-notifier');
 const pkg = require('./package');
 const runner = require('./src/runner.js');
 
-updateNotifier({ pkg }).notify();
+updateNotifier({ pkg }).notify({ isGlobal: true });
 
 const cli = meow(`
     Usage
