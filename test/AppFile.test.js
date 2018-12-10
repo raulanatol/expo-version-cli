@@ -178,5 +178,19 @@ describe('AppFile', () => {
         expect(appFile.appData.expo.version).toBe('1.2.4');
       });
     });
+
+    describe('set', () => {
+      test('Should set the version number if not exists this field', () => {
+        const appFile = prepareAppFileToCheck('{}');
+        appFile.setExpoVersion('1.2.3');
+        expect(appFile.appData.expo.version).toBe('1.2.3');
+      });
+
+      test('Should increase the patch version number if this field exists', () => {
+        const appFile = prepareAppFileToCheck('{ "expo" : { "version": "0.0.2" } }');
+        appFile.setExpoVersion('1.4.5');
+        expect(appFile.appData.expo.version).toBe('1.4.5');
+      });
+    });
   });
 });

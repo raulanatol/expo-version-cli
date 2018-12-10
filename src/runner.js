@@ -24,11 +24,22 @@ function increaseMajor() {
   appFile.save();
 }
 
+function setExpoVersion(cli) {
+  if (cli.input.length > 0 && cli.input[0]) {
+    const appFile = new AppFile();
+    appFile.setExpoVersion(cli.input[0]);
+    appFile.save();
+  } else {
+    cli.help();
+  }
+}
+
 const actions = {
   build: increaseBuild,
   patch: increasePatch,
   minor: increaseMinor,
   major: increaseMajor,
+  set: setExpoVersion
 };
 
 function run(cli) {
@@ -36,7 +47,7 @@ function run(cli) {
     const flags = cli.flags;
     const enabledFlags = Object.keys(flags).filter(flag => flags[flag]);
     if (enabledFlags.length > 0) {
-      actions[enabledFlags[0]] ? actions[enabledFlags[0]]() : cli.showHelp();
+      actions[enabledFlags[0]] ? actions[enabledFlags[0]](cli) : cli.showHelp();
     } else {
       cli.showHelp();
     }
