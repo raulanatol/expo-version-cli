@@ -44,6 +44,10 @@ function uncommitted_changes {
   fi
 }
 
+function publish {
+  npm publish --access public
+}
+
 function gitPush {
   git push && git push --tags
 }
@@ -52,6 +56,7 @@ uncommitted_changes
 check_branch
 change_version
 exists_tag
+publish
 gitPush
 
 
