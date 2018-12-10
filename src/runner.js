@@ -25,12 +25,12 @@ function increaseMajor() {
 }
 
 function setExpoVersion(cli) {
-  if (cli.input.length > 0 && cli.input[0]) {
+  if (cli.input && cli.input.length > 0 && cli.input[0]) {
     const appFile = new AppFile();
     appFile.setExpoVersion(cli.input[0]);
     appFile.save();
   } else {
-    cli.help();
+    cli.showHelp();
   }
 }
 
