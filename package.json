@@ -26,8 +26,10 @@
   "homepage": "https://github.com/raulanatol/expo-version-cli#readme",
   "dependencies": {
     "detect-indent": "^5.0.0",
-    "jest": "^23.6.0",
     "meow": "^5.0.0",
     "update-notifier": "^2.5.0"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
   }
 }
