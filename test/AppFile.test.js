@@ -124,6 +124,14 @@ describe('AppFile', () => {
         expect(appFile.appData.expo.version).toBe('2.0.0');
       });
 
+      test('Should update the version and reset the build numbers', () => {
+        const appFile = prepareAppFileToCheck('{ "expo" : { "version": "1.2.3" } }');
+        appFile.increaseMajor();
+        expect(appFile.appData.expo.version).toBe('2.0.0');
+        expect(appFile.appData.expo.ios.buildNumber).toBe('0');
+        expect(appFile.appData.expo.android.versionCode).toBe(0);
+      });
+
       test('Should increase the major version number if this field exists with complex app.json', () => {
         const config = {
           "expo": {
@@ -157,6 +165,14 @@ describe('AppFile', () => {
         appFile.increaseMinor();
         expect(appFile.appData.expo.version).toBe('1.3.0');
       });
+
+      test('Should update and reset the build numbers', () => {
+        const appFile = prepareAppFileToCheck('{ "expo" : { "version": "1.2.3" } }');
+        appFile.increaseMinor();
+        expect(appFile.appData.expo.version).toBe('1.3.0');
+        expect(appFile.appData.expo.ios.buildNumber).toBe('0');
+        expect(appFile.appData.expo.android.versionCode).toBe(0);
+      });
     });
 
     describe('patch', () => {
@@ -177,6 +193,14 @@ describe('AppFile', () => {
         appFile.increasePatch();
         expect(appFile.appData.expo.version).toBe('1.2.4');
       });
+
+      test('Should modify the version and reset the build numbers', () => {
+        const appFile = prepareAppFileToCheck('{ "expo" : { "version": "1.2.3" } }');
+        appFile.increasePatch();
+        expect(appFile.appData.expo.version).toBe('1.2.4');
+        expect(appFile.appData.expo.ios.buildNumber).toBe('0');
+        expect(appFile.appData.expo.android.versionCode).toBe(0);
+      });
     });
 
     describe('set', () => {
@@ -190,6 +214,14 @@ describe('AppFile', () => {
         const appFile = prepareAppFileToCheck('{ "expo" : { "version": "0.0.2" } }');
         appFile.setExpoVersion('1.4.5');
         expect(appFile.appData.expo.version).toBe('1.4.5');
+      });
+
+      test('Should increase the patch version number if this field exists and reset the build numbers', () => {
+        const appFile = prepareAppFileToCheck('{ "expo" : { "version": "0.0.2" } }');
+        appFile.setExpoVersion('1.4.5');
+        expect(appFile.appData.expo.version).toBe('1.4.5');
+        expect(appFile.appData.expo.ios.buildNumber).toBe('0');
+        expect(appFile.appData.expo.android.versionCode).toBe(0);
       });
     });
   });

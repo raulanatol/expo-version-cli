@@ -65,6 +65,8 @@ class AppFile {
     } else {
       this.appData.expo = { version: newVersion };
     }
+    this.setAndroidVersionCode(0);
+    this.setIOSBuildNumber("0");
   }
 
   getExpoVersion() {

@@ -20,6 +20,12 @@ Object {
 exports[`AppFile version major Should increase the major version number if this field exists with complex app.json 1`] = `
 Object {
   "expo": Object {
+    "android": Object {
+      "versionCode": 0,
+    },
+    "ios": Object {
+      "buildNumber": "0",
+    },
     "name": "My app",
     "privacy": "public",
     "sdkVersion": "UNVERSIONED",

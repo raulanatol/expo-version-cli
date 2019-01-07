@@ -30,6 +30,7 @@
     "update-notifier": "^2.5.0"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.12",
     "jest": "^23.6.0"
   }
 }
