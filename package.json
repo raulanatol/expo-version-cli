@@ -25,12 +25,13 @@
   },
   "homepage": "https://github.com/raulanatol/expo-version-cli#readme",
   "dependencies": {
-    "detect-indent": "^5.0.0",
+    "detect-indent": "^6.0.0",
     "meow": "^5.0.0",
-    "update-notifier": "^2.5.0"
+    "npm-check-updates": "^3.1.13",
+    "update-notifier": "^3.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.12",
-    "jest": "^23.6.0"
+    "@types/jest": "^24.0.15",
+    "jest": "^24.8.0"
   }
 }
