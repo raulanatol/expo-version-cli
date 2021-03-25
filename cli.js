@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { help, actions } = require('./src/runner');
 const updateNotifier = require('update-notifier');
 const pkg = require('./package.json');
