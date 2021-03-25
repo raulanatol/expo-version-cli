@@ -13,7 +13,7 @@ function prepareAppFileToCheck(initialFile) {
   return new AppFile();
 }
 
-describe('AppFile', () => {
+xdescribe('AppFile', () => {
   describe('build', () => {
     describe('iosBuildNumber', () => {
       test('Should increase the ios build number if not exists this field', () => {

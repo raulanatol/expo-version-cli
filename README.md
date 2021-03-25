@@ -1,39 +1,57 @@
-# expo-version-cli
+<div align="center">
+    <h1>expo-version-cli</h1>
+</div>
 
-> A CLI to increase versions in an expo projects
+<p>A CLI to increase versions in an expo projects</p>
 
-## Features
+---
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Features](#features)
+- [Install](#install)
+- [Usage](#usage)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Features
 
 - Increase ios/android version (buildNumber & versionCode)
 - Increase major/minor/patch version
 
-## Install
+# Install
 
 ```bash
 $ npm install expo-version-cli
 ```
 
-## Usage
+# Usage
 
-Increase ios/android version
+Options patch Increase a patch number minor Increase a minor number major Increase a major number
 
-```bash
-$ expo-version-cli -b
+Examples
+
+```shell
+expo-version-cli patch
 ```
 
-Increase major version
+```shell
+expo-version-cli minor
+```
 
-```bash
-$ expo-version-cli -M
+```shell
+expo-version-cli major
 ```
 
 Help
 
 ```bash
-$ expo-version-cli -h
+$ expo-version-cli
 ```
 
-
-## License
+# License
 
 MIT © [raulanatol](http://natol.es)

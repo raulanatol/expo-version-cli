@@ -1,32 +1,32 @@
-#!/usr/bin/env node
-const meow = require('meow');
+const { help, actions } = require('./src/runner');
 const updateNotifier = require('update-notifier');
-const pkg = require('./package');
-const runner = require('./src/runner.js');
+const pkg = require('./package.json');
 
-updateNotifier({ pkg }).notify({ isGlobal: true });
+updateNotifier({ pkg }).notify();
 
-const cli = meow(`
-    Usage
-        $ expo-version-cli
-    Options
-        --build, -b         Increase a build number
-        --major, -M         Increase a mayor version number
-        --minor, -m         Increase a minor version number
-        --patch, -p         Increase a path version number
-        --set, -s           Set a version number
-    Examples
-        $ expo-version-cli -b
-        $ expo-version-cli -M
-        $ expo-version-cli -s 1.0.2
-`, {
-  flags: {
-    build: { type: 'boolean', alias: 'b' },
-    major: { type: 'boolean', alias: 'M' },
-    minor: { type: 'boolean', alias: 'm' },
-    patch: { type: 'boolean', alias: 'p' },
-    set: { type: 'boolean', alias: 's' }
+const exit = () => process.exit(0);
+
+const assertValidCommand = command => {
+  if (!['patch', 'minor', 'major'].includes(command)) {
+    help();
+    exit();
   }
-});
+}
 
-runner.run(cli);
+const processCommand = () => {
+  const command = process.argv[2].trim().toLowerCase();
+  assertValidCommand(command);
+  actions[command]()
+};
+
+
+const assertValidExecution = () => {
+  if (process.argv.length < 3) {
+    help();
+    exit();
+  }
+};
+
+
+assertValidExecution();
+processCommand();

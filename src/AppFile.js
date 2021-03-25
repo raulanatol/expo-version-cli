@@ -1,42 +1,44 @@
 const Utils = require('./utils.js');
-const detectIndent = require('detect-indent');
+const JsonFile = require('./JsonFile');
 
 class AppFile {
   constructor() {
     Utils.verifyFiles();
-    const appDataString = Utils.readFile('./app.json');
-    this.indent = detectIndent(appDataString).indent;
-    this.appData = JSON.parse(appDataString);
+    this.appFile = new JsonFile('./app.json');
+    this.packageFile = new JsonFile('./package.json');
   }
 
   increaseBuild() {
-    const iosBuildNumber = '' + (Number(this.appData.expo && this.appData.expo.ios && this.appData.expo.ios.buildNumber || 0) + 1);
-    const androidVersionCode = (this.appData.expo && this.appData.expo.android && this.appData.expo.android.versionCode || 0) + 1;
+    const app = this.appFile.getFile();
+    const iosBuildNumber = '' + (Number(app.expo && app.expo.ios && app.expo.ios.buildNumber || 0) + 1);
+    const androidVersionCode = (app.expo && app.expo.android && app.expo.android.versionCode || 0) + 1;
     this.setAndroidVersionCode(androidVersionCode);
     this.setIOSBuildNumber(iosBuildNumber);
   }
 
   setIOSBuildNumber(newBuildNumber) {
-    if (this.appData.expo) {
-      if (this.appData.expo.ios) {
-        this.appData.expo.ios.buildNumber = newBuildNumber;
+    const app = this.appFile.getFile();
+    if (app.expo) {
+      if (app.expo.ios) {
+        app.expo.ios.buildNumber = newBuildNumber;
       } else {
-        this.appData.expo.ios = { buildNumber: newBuildNumber };
+        app.expo.ios = { buildNumber: newBuildNumber };
       }
     } else {
-      this.appData.expo = { ios: { buildNumber: newBuildNumber } };
+      app.expo = { ios: { buildNumber: newBuildNumber } };
     }
   }
 
   setAndroidVersionCode(newVersionCode) {
-    if (this.appData.expo) {
-      if (this.appData.expo.android) {
-        this.appData.expo.android.versionCode = newVersionCode;
+    const app = this.appFile.getFile();
+    if (app.expo) {
+      if (app.expo.android) {
+        app.expo.android.versionCode = newVersionCode;
       } else {
-        this.appData.expo.android = { versionCode: newVersionCode };
+        app.expo.android = { versionCode: newVersionCode };
       }
     } else {
-      this.appData.expo = { android: { versionCode: newVersionCode } };
+      app.expo = { android: { versionCode: newVersionCode } };
     }
   }
 
@@ -45,32 +47,37 @@ class AppFile {
     split[2] = '0';
     split[1] = Number(split[1]) + 1;
     this.setExpoVersion(split.join('.'));
+    this.increaseBuild();
   }
 
   increasePatch() {
     const split = this.getExpoVersion();
     split[2] = Number(split[2]) + 1;
     this.setExpoVersion(split.join('.'));
+    this.increaseBuild();
   }
 
   increaseMajor() {
     const split = this.getExpoVersion();
     split[0] = Number(split[0]) + 1;
     this.setExpoVersion(split[0] + '.0.0');
+    this.increaseBuild();
   }
 
   setExpoVersion(newVersion) {
-    if (this.appData.expo) {
-      this.appData.expo.version = newVersion;
+    const app = this.appFile.getFile();
+    if (app.expo) {
+      app.expo.version = newVersion;
     } else {
-      this.appData.expo = { version: newVersion };
+      app.expo = { version: newVersion };
     }
-    this.setAndroidVersionCode(0);
-    this.setIOSBuildNumber("0");
+    const packageFile = this.packageFile.getFile();
+    packageFile.version = newVersion;
   }
 
   getExpoVersion() {
-    const expoVersion = this.appData && this.appData.expo && this.appData.expo.version || '0.0.0';
+    const app = this.appFile.getFile();
+    const expoVersion = app && app.expo && app.expo.version || '0.0.0';
     const split = expoVersion.split('.');
     if (!split || split.length !== 3) {
       throw new Error('Invalid expo version value' + expoVersion);
@@ -79,7 +86,8 @@ class AppFile {
   }
 
   save() {
-    Utils.saveFile('./app.json', this.appData, this.indent);
+    this.appFile.save();
+    this.packageFile.save();
   }
 }
 

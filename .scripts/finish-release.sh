@@ -2,62 +2,43 @@
 
 set -eu
 
-function error {
-  echo "#----------------------------"
-  echo "# ERROR: $1"
-  echo "#----------------------------\n"
+function error() {
+  echo "🚨 Error: $1"
   exit 1
 }
 
 if [[ $# != 1 ]]; then
-  error "Please specify the version number: npm run finish-release 10.0.1"
+  error "Please specify the version to release patch/minor/major"
 fi
 
-yarn test
+VERSION_PARAM=$1
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-NEW_VERSION=$1
-BRANCH=`git rev-parse --abbrev-ref HEAD`
-
-function change_version {
-  npm version ${NEW_VERSION}
+function change_version() {
+  npm version "${VERSION_PARAM}"
 }
 
-function check_branch {
-  if [[ ${BRANCH} == 'master' ]]; then
-      echo "Master branch"
-  else
+function verify_main_branch() {
+  if [[ ${BRANCH} != 'main' ]]; then
     error "Invalid branch name ${BRANCH}"
-   fi
-}
-
-function exists_tag {
-  if git rev-parse v${NEW_VERSION} >/dev/null 2>&1; then
-    echo "Found tag"
-  else
-    error "Tag not found"
   fi
 }
 
-function uncommitted_changes {
-  if [[ `git status --porcelain` ]]; then
+function verify_uncommitted_changes() {
+  if [[ $(git status --porcelain) ]]; then
+    git status
     error "There are uncommitted changes in the working tree."
   fi
 }
 
-function publish {
+function publish() {
   npm publish --access public
-}
-
-function gitPush {
   git push && git push --tags
 }
 
-uncommitted_changes
-check_branch
+verify_uncommitted_changes
+verify_main_branch
 change_version
-exists_tag
+make
 publish
-gitPush
-
-
-
+echo "📦✅"

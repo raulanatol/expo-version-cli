@@ -1,20 +1,8 @@
 const AppFile = require('./AppFile');
 
-function increaseBuild() {
-  const appFile = new AppFile();
-  appFile.increaseBuild();
-  appFile.save();
-}
-
 function increaseMinor() {
   const appFile = new AppFile();
   appFile.increaseMinor();
-  appFile.save();
-}
-
-function increasePatch() {
-  const appFile = new AppFile();
-  appFile.increasePatch();
   appFile.save();
 }
 
@@ -24,38 +12,32 @@ function increaseMajor() {
   appFile.save();
 }
 
-function setExpoVersion(cli) {
-  if (cli.input && cli.input.length > 0 && cli.input[0]) {
-    const appFile = new AppFile();
-    appFile.setExpoVersion(cli.input[0]);
-    appFile.save();
-  } else {
-    cli.showHelp();
-  }
+function increasePatch() {
+  const appFile = new AppFile();
+  appFile.increasePatch();
+  appFile.save();
 }
 
 const actions = {
-  build: increaseBuild,
-  patch: increasePatch,
   minor: increaseMinor,
   major: increaseMajor,
-  set: setExpoVersion
+  patch: increasePatch
 };
 
-function run(cli) {
-  try {
-    const flags = cli.flags;
-    const enabledFlags = Object.keys(flags).filter(flag => flags[flag]);
-    if (enabledFlags.length > 0) {
-      actions[enabledFlags[0]] ? actions[enabledFlags[0]](cli) : cli.showHelp();
-    } else {
-      cli.showHelp();
-    }
-  } catch (e) {
-    console.log(e.message);
-  }
-}
+const help = () => {
+  console.log(`Usage: $ expo-version-cli
+    Options
+      patch               Increase a patch number
+      minor               Increase a minor number
+      major               Increase a major number
+    Examples
+      $ expo-version-cli patch
+      $ expo-version-cli minor
+      $ expo-version-cli major
+    `);
+};
 
 module.exports = {
-  run,
+  help,
+  actions
 };

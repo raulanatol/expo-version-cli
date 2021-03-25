@@ -1,6 +1,6 @@
 {
   "name": "expo-version-cli",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "A simple expo version updater cli",
   "main": "index.js",
   "bin": {
@@ -25,14 +25,11 @@
   },
   "homepage": "https://github.com/raulanatol/expo-version-cli#readme",
   "dependencies": {
-    "detect-indent": "^6.0.0",
-    "meow": "^5.0.0",
-    "npm-check-updates": "^3.1.13",
-    "update-notifier": "^3.0.1"
+    "detect-indent": "6.0.0",
+    "update-notifier": "5.1.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.15",
-    "github-release-notes": "^0.17.1",
-    "jest": "^24.8.0"
+    "@types/jest": "26.0.21",
+    "jest": "26.6.3"
   }
 }
