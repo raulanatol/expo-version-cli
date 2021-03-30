@@ -8,7 +8,7 @@ updateNotifier({ pkg }).notify();
 const exit = () => process.exit(0);
 
 const assertValidCommand = command => {
-  if (!['patch', 'minor', 'major'].includes(command)) {
+  if (!['patch', 'minor', 'major', 'build'].includes(command)) {
     help();
     exit();
   }

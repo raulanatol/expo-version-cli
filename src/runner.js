@@ -18,10 +18,17 @@ function increasePatch() {
   appFile.save();
 }
 
+function increaseBuildNumber() {
+  const appFile = new AppFile();
+  appFile.increaseBuild();
+  appFile.save()
+}
+
 const actions = {
   minor: increaseMinor,
   major: increaseMajor,
-  patch: increasePatch
+  patch: increasePatch,
+  build: increaseBuildNumber
 };
 
 const help = () => {
@@ -30,10 +37,12 @@ const help = () => {
       patch               Increase a patch number
       minor               Increase a minor number
       major               Increase a major number
+      build               Increase the build number
     Examples
       $ expo-version-cli patch
       $ expo-version-cli minor
       $ expo-version-cli major
+      $ expo-version-cli build
     `);
 };
 

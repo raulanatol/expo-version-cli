@@ -47,21 +47,18 @@ class AppFile {
     split[2] = '0';
     split[1] = Number(split[1]) + 1;
     this.setExpoVersion(split.join('.'));
-    this.increaseBuild();
   }
 
   increasePatch() {
     const split = this.getExpoVersion();
     split[2] = Number(split[2]) + 1;
     this.setExpoVersion(split.join('.'));
-    this.increaseBuild();
   }
 
   increaseMajor() {
     const split = this.getExpoVersion();
     split[0] = Number(split[0]) + 1;
     this.setExpoVersion(split[0] + '.0.0');
-    this.increaseBuild();
   }
 
   setExpoVersion(newVersion) {
